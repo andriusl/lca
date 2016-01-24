@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import node
-
-nd = node.Node
+from node import Node as nd
 
 # Create sample nodes tree
 
