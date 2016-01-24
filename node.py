@@ -5,8 +5,13 @@ class Node(object):
     """Node Class."""
 
     def __init__(self, value, parent=None):
+        self._check_parent(parent)
         self.value = value
         self.parent = parent
+
+    def _check_parent(self, parent):
+        if parent and not isinstance(parent, type(self)):
+            raise Warning("Parent must be an instance of Node class")
 
     def find_ancestors(self):
         """Return a list of ancestors values from lowest to root."""
