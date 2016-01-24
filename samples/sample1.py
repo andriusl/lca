@@ -17,3 +17,8 @@ n8 = nd(8, n4)
 n3 = nd(3, root)
 n6 = nd(6, n3)
 n7 = nd(7, n3)
+
+# Second nodes tree
+
+nn1 = nd(1)
+nn2 = nd(2, nn1)

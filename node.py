@@ -3,15 +3,40 @@
 
 class Node(object):
     """Node Class."""
+    instances = {}
 
     def __init__(self, value, parent=None):
-        self._check_parent(parent)
+        instances = Node.instances
+        if parent:
+            self._check_parent(parent)
+            # Get root node
+            root = parent._get_root()
+            # We check value if it is unique in given tree
+            Node._check_value(value, root)
+            instances[root].append(value)
+        else:
+            instances[self] = [value]
         self.value = value
         self.parent = parent
 
     def _check_parent(self, parent):
-        if parent and not isinstance(parent, type(self)):
+        if not isinstance(parent, type(self)):
             raise Warning("Parent must be an instance of Node class")
+
+    @classmethod
+    def _check_value(cls, value, root):
+        if value in cls.instances[root]:
+            raise Warning("Value must be unique per nodes tree")
+
+    def _get_parent(self):
+        """Return parent node. Should be called only if parent exists."""
+        return self.parent
+
+    def _get_root(self):
+        parent = self
+        while parent.parent:
+            parent = parent._get_parent()
+        return parent
 
     def find_ancestors(self):
         """Return a list of ancestors values from lowest to root."""
@@ -20,7 +45,7 @@ class Node(object):
         parent = self.parent
         while parent:  # If no parent, it means we reached root
             ancestors.append(parent.value)
-            parent = parent.parent
+            parent = parent._get_parent()
         return ancestors
 
     @staticmethod
